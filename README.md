@@ -23,7 +23,7 @@ A comprehensive web-based class scheduling system for the Computer Science Depar
 
 ## Installation
 
-1. Clone the repository
+1. Clone the repository: https://github.com/wogene-dev/class-scheduling-app
 2. Open index.html in your web browser
 3. Start using the application
 
