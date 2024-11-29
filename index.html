@@ -1,0 +1,400 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo University - Class Scheduling System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+   
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="./images/logo-one.png" onerror="this.src='images/logo-one.png'" alt="DU" class="nav-logo">
+                Demo Scheduling
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#schedule">Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#courses">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#exams">Exams</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-light ms-2" id="loginBtn">Login</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="userType" class="form-label">User Type</label>
+                            <select class="form-select" id="userType" required>
+                                <option value="">Select User Type</option>
+                                <option value="student">Student</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="admin">System Admin</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mt-5 pt-5">
+        <!-- Welcome Section -->
+        <section id="home" class="text-center my-5">
+            <h1 class="display-4 animate-fade-in">Welcome to Demo University</h1>
+            <h2 class="h3 text-muted animate-fade-in">Computer Science Department Scheduling System</h2>
+            <div class="row mt-5">
+                <div class="col-md-4 animate-slide-up">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-calendar-alt fa-3x text-primary mb-3"></i>
+                            <h3 class="card-title">Class Schedules</h3>
+                            <p class="card-text">View and manage your class schedules easily</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                            <h3 class="card-title">Courses</h3>
+                            <p class="card-text">Access course information and materials</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="card feature-card">
+                        <div class="card-body">
+                            <i class="fas fa-pencil-alt fa-3x text-primary mb-3"></i>
+                            <h3 class="card-title">Exams</h3>
+                            <p class="card-text">Check exam schedules and venues</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule" class="my-5 d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Class Schedule</h2>
+                <button id="addScheduleBtn" class="btn btn-primary" data-role="admin">
+                    <i class="fas fa-plus"></i> Add Schedule
+                </button>
+            </div>
+            <div id="scheduleContainer" class="schedule-container">
+                <!-- Schedule content will be dynamically loaded -->
+            </div>
+        </section>
+
+        <!-- Schedule Modal -->
+        <div class="modal fade" id="scheduleModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Add New Schedule</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="scheduleForm">
+                            <input type="hidden" name="scheduleId">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Course</label>
+                                    <select name="course" class="form-select" required>
+                                        <option value="">Select Course</option>
+                                        <option value="CS101">CS101 - Introduction to Programming</option>
+                                        <option value="CS102">CS102 - Data Structures</option>
+                                        <option value="CS103">CS103 - Algorithms</option>
+                                        <option value="CS104">CS104 - Database Systems</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Teacher</label>
+                                    <select name="teacher" class="form-select" required>
+                                        <option value="">Select Teacher</option>
+                                        <!-- Will be populated dynamically -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Classroom</label>
+                                    <select name="classroom" class="form-select" required>
+                                        <option value="">Select Classroom</option>
+                                        <option value="Room 101">Room 101</option>
+                                        <option value="Room 102">Room 102</option>
+                                        <option value="Room 103">Room 103</option>
+                                        <option value="Lab 1">Computer Lab 1</option>
+                                        <option value="Lab 2">Computer Lab 2</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Day of Week</label>
+                                    <select name="dayOfWeek" class="form-select" required>
+                                        <option value="">Select Day</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Start Time</label>
+                                    <input type="time" name="startTime" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">End Time</label>
+                                    <input type="time" name="endTime" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Schedule Type</label>
+                                <select name="type" class="form-select" required>
+                                    <option value="regular">Regular Class</option>
+                                    <option value="exam">Exam</option>
+                                </select>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Schedule</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Section -->
+        <section id="courses" class="my-5 d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Courses</h2>
+                <div class="d-flex gap-3">
+                    <div class="search-box">
+                        <input type="text" id="courseFilter" class="form-control" placeholder="Search courses...">
+                    </div>
+                    <button id="addCourseBtn" class="btn btn-primary" data-role="admin">
+                        <i class="fas fa-plus"></i> Add Course
+                    </button>
+                </div>
+            </div>
+            <div id="coursesContainer" class="courses-container">
+                <!-- Courses content will be dynamically loaded -->
+            </div>
+        </section>
+
+        <!-- Course Modal -->
+        <div class="modal fade" id="courseModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Add New Course</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="courseForm">
+                            <input type="hidden" name="courseId">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Course Code</label>
+                                    <input type="text" name="code" class="form-control" required
+                                        pattern="[A-Z]{2,4}[0-9]{3}" 
+                                        title="Course code should be 2-4 letters followed by 3 numbers (e.g., CS101)">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Course Name</label>
+                                    <input type="text" name="name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Credits</label>
+                                    <input type="number" name="credits" class="form-control" required min="1" max="6">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Department</label>
+                                    <select name="department" class="form-select" required>
+                                        <option value="">Select Department</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Information Technology">Information Technology</option>
+                                        <option value="Software Engineering">Software Engineering</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Prerequisites</label>
+                                    <select name="prerequisites" class="form-select" multiple>
+                                        <!-- Will be populated dynamically -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Teachers</label>
+                                    <select name="teachers" class="form-select" multiple required>
+                                        <!-- Will be populated dynamically -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Semester</label>
+                                    <select name="semester" class="form-select" required>
+                                        <option value="">Select Semester</option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <option value="7">Semester 7</option>
+                                        <option value="8">Semester 8</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Capacity</label>
+                                    <input type="number" name="capacity" class="form-control" required min="1" max="100">
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Course</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exams Section -->
+        <section id="exams" class="my-5 d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Exams</h2>
+                <button id="addExamBtn" class="btn btn-primary" data-role="admin">
+                    <i class="fas fa-plus"></i> Add Exam
+                </button>
+            </div>
+            <div id="examsContainer" class="exams-container">
+                <!-- Exams content will be dynamically loaded -->
+            </div>
+        </section>
+
+        <!-- Exam Modal -->
+        <div class="modal fade" id="examModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="examModalTitle">Add New Exam</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="examForm">
+                            <input type="hidden" name="examId">
+                            <div class="mb-3">
+                                <label class="form-label">Course</label>
+                                <select name="course" class="form-select" required>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" name="date" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Time</label>
+                                    <input type="time" name="time" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Duration (hours)</label>
+                                    <input type="number" name="duration" class="form-control" required min="1" max="5">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Exam</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Demo University</h5>
+                    <p>Computer Science Department</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p> 2023 All rights reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/schedule.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/exams.js"></script>
+    <script src="js/courses.js"></script>
+    <script src="js/adminDashboard.js"></script>
+</body>
+</html>
